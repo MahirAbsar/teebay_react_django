@@ -1,6 +1,7 @@
 import Header from './Components/Header'
 import Footer from './Components/Footer'
 import Home from './Pages/Home'
+import ProductDetail from './Pages/ProductDetail'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 function App() {
   return (
@@ -10,14 +11,7 @@ function App() {
         <main className='py-3'>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route
-              path='/products'
-              element={
-                <>
-                  <h1>Products</h1>
-                </>
-              }
-            />
+            <Route path='/product/:id' element={<ProductDetail />} />
           </Routes>
         </main>
         <Footer />
