@@ -4,10 +4,11 @@ import Navbar from 'react-bootstrap/Navbar'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
+import { useNavigate } from 'react-router-dom'
 export default function Header() {
   const { userInfo } = useSelector((store) => store.user)
   const dispatch = useDispatch()
-  console.log(userInfo)
+  const navigate = useNavigate()
   return (
     <header>
       <Navbar bg='dark' expand='lg' variant='dark'>
@@ -42,6 +43,7 @@ export default function Header() {
                   <Nav.Link
                     onClick={() => {
                       dispatch(logout())
+                      navigate('/login')
                     }}
                   >
                     <i className='fa-solid fa-user me-1'></i>Logout

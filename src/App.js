@@ -5,6 +5,7 @@ import ProductDetail from './Pages/ProductDetail'
 import LoginPage from './Pages/LoginPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import RegisterPage from './Pages/RegisterPage'
+import UpdateUser from './Pages/UpdateUser'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path='/products/:id' element={<ProductDetail />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/profile' element={<UpdateUser />} />
           </Routes>
         </main>
         <Footer />

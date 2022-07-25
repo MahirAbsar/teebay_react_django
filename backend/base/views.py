@@ -39,6 +39,25 @@ def getProduct(request,pk):
  serializer=  ProductSerializer(product,many=False)
  return Response(serializer.data)
 
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUserInfo(request):
+
+ user = request.user
+ serializer = UserSerializer(user,many=False)
+ data = request.data
+ user.first_name = data['name']
+ user.username = data['email']
+ user.email = data['email']
+ if data['password'] != '':
+   user.password = make_password(data['password'])
+  
+ user.save()
+ return Response(serializer.data)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserInfo(request):

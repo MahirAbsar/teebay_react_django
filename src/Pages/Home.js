@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap'
-import products from '../products'
 import axios from 'axios'
 import Product from '../Components/Product'
 

@@ -3,17 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 # Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    firstName = models.CharField(max_length=200, blank=True, null=True)
-    lastName = models.CharField(max_length=200, blank=True, null=True)
-    address = models.CharField(max_length=200, blank=True, null=True)
-    email = models.EmailField(max_length=500, blank=True, null=True)
-    phoneNumber = models.CharField(max_length=200,null=True,blank=True)
-    id = models.UUIDField(default=uuid.uuid4, unique=True,
-                          primary_key=True, editable=False)
-    def __str__(self):
-        return self.name
     
 
 class Product(models.Model):
