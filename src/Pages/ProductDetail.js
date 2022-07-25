@@ -1,11 +1,18 @@
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import products from '../products'
+import axios from 'axios'
 import { Container, Button, Row, Col } from 'react-bootstrap'
 function ProductDetail() {
-  const { id } = useParams()
-  const { _id, name, image, price, description, category } = products.find(
-    (product) => product._id == id
-  )
+  const [product, setProduct] = useState({})
+  const params = useParams()
+  useEffect(() => {
+    async function getData() {
+      const { data } = await axios.get(`/api/products/${params.id}`)
+      setProduct(data)
+    }
+    getData()
+  }, [])
+  const { name, description, price, category } = product
   return (
     <Container className='py-5'>
       <h1>{name}</h1>
@@ -21,7 +28,6 @@ function ProductDetail() {
           <Col> </Col>
           <Col className='py-5'>
             <Button variant='primary'>Primary</Button>
-
             <Button variant='secondary' className='mx-3'>
               Rent
             </Button>
