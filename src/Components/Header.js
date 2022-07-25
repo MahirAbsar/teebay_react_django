@@ -2,7 +2,12 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../features/user/userSlice'
 export default function Header() {
+  const { userInfo } = useSelector((store) => store.user)
+  const dispatch = useDispatch()
+  console.log(userInfo)
   return (
     <header>
       <Navbar bg='dark' expand='lg' variant='dark'>
@@ -25,11 +30,30 @@ export default function Header() {
                   <i className='fa-solid fa-cart-shopping me-1'></i>Cart
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to='/login'>
-                <Nav.Link>
-                  <i className='fa-solid fa-user me-1'></i>Login
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo ? (
+                <>
+                  <LinkContainer to='/profile'>
+                    <Nav.Link>
+                      <i className='fa-solid fa-user me-1'></i>
+                      {userInfo.name}
+                    </Nav.Link>
+                  </LinkContainer>
+
+                  <Nav.Link
+                    onClick={() => {
+                      dispatch(logout())
+                    }}
+                  >
+                    <i className='fa-solid fa-user me-1'></i>Logout
+                  </Nav.Link>
+                </>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>
+                    <i className='fa-solid fa-user me-1'></i>Login
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
