@@ -8,11 +8,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import RegisterPage from './Pages/RegisterPage'
 import UpdateUser from './Pages/UpdateUser'
 import MyProducts from './Pages/MyProducts'
-
+import { useSelector } from 'react-redux'
+import ModalComponent from './Components/ModalComponent'
 function App() {
+  const { isOpen } = useSelector((store) => store.modal)
   return (
     <>
       <BrowserRouter>
+        {isOpen && <ModalComponent />}
         <Header />
         <main className='py-3'>
           <Routes>

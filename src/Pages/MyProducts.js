@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container, Button } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import ModalComponent from '../Components/ModalComponent'
 import { logout } from '../features/user/userSlice'
 import axios from 'axios'
+import { openModal } from '../features/modal/modalSlice'
 function MyProducts() {
   const [products, setProducts] = useState([])
   const dispatch = useDispatch()
@@ -35,7 +36,7 @@ function MyProducts() {
       <h1 className='text-center'>My Products</h1>
       <section className='py-5'>
         {products.map((product) => {
-          const { id, name, price, description } = product
+          const { id, name, price, description, category } = product
           return (
             <article
               key={id}
@@ -58,6 +59,7 @@ function MyProducts() {
                   ></i>
                 </h2>
               </div>
+              <h6>Category: {category.join('| ')} </h6>
               <p>Price: ${price}</p>
               <p className='lead'>{description}</p>
             </article>

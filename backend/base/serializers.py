@@ -1,3 +1,4 @@
+from unicodedata import category
 from rest_framework import serializers
 from . import models
 from django.contrib.auth.models import User
@@ -15,11 +16,15 @@ class UserSerializer(serializers.ModelSerializer):
    name = obj.email
   return name
 
-class ProductSerializer(serializers.ModelSerializer):
- class Meta:
-  model = models.Product
-  fields = "__all__"
 
+class ProductSerializer(serializers.ModelSerializer):
+  
+  category = serializers.StringRelatedField(many=True,read_only=True)
+  # user = serializers.CharField(source="user.username")
+  class Meta:
+    model = models.Product
+    fields = "__all__"
+    
 class UserSerializerWithToken(UserSerializer):
  token = serializers.SerializerMethodField(read_only=True)
  class Meta:
@@ -30,3 +35,4 @@ class UserSerializerWithToken(UserSerializer):
   token = RefreshToken.for_user(obj)
   return str(token.access_token)
   
+

@@ -1,5 +1,4 @@
-import ssl
-from tkinter.tix import Tree
+
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes
@@ -9,17 +8,17 @@ from .serializers import ProductSerializer,UserSerializer,UserSerializerWithToke
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from . import models
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 @api_view(['GET'])
 def getProducts(request):
- products = models.Product.objects.all()
- serialzer = ProductSerializer(products,many =True)
- # return JsonResponse(serialzer.data,safe=False)
- return Response(serialzer.data)
+  products = models.Product.objects.all()
+  serialzer = ProductSerializer(products,many =True)
+  return Response(serialzer.data)
 
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
  def validate(self, attrs):
@@ -35,27 +34,26 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['GET'])
 def getProduct(request,pk):
- product = models.Product.objects.get(id=pk)
- serializer=  ProductSerializer(product,many=False)
- return Response(serializer.data)
+  product = models.Product.objects.get(id=pk)
+  serializer=  ProductSerializer(product,many=False)
+  return Response(serializer.data)
 
 
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def updateUserInfo(request):
-
- user = request.user
- serializer = UserSerializer(user,many=False)
- data = request.data
- user.first_name = data['name']
- user.username = data['email']
- user.email = data['email']
- if data['password'] != '':
-   user.password = make_password(data['password'])
-  
- user.save()
- return Response(serializer.data)
+  user = request.user
+  serializer = UserSerializer(user,many=False)
+  data = request.data
+  user.first_name = data['name']
+  user.username = data['email']
+  user.email = data['email']
+  if data['password'] != '':
+    user.password = make_password(data['password'])
+    
+  user.save()
+  return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -88,4 +86,13 @@ def getUserProducts(request):
   userProducts = models.Product.objects.filter(user = user)
   serializer = ProductSerializer(userProducts,many=True)
   return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteProduct(request):
+  data =request.data
+  product = models.Product.objects.get(id=data['id'])
+  product.delete()
+  return Response('Product Deleted')
+
 
