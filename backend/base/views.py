@@ -89,9 +89,9 @@ def getUserProducts(request):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def deleteProduct(request):
+def deleteProduct(request,pk):
   data =request.data
-  product = models.Product.objects.get(id=data['id'])
+  product = models.Product.objects.get(id=pk)
   product.delete()
   return Response('Product Deleted')
 

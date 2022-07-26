@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container, Button } from 'react-bootstrap'
-import ModalComponent from '../Components/ModalComponent'
+import { useNavigate } from 'react-router'
 import { logout } from '../features/user/userSlice'
 import axios from 'axios'
-import { openModal } from '../features/modal/modalSlice'
 function MyProducts() {
   const [products, setProducts] = useState([])
+  const [isDeleted, setIsDeleted] = useState(false)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((store) => store.user)
+  console.log(userInfo.token)
+  const handleDelete = async (id) => {
+    const { data } = await axios.delete(`/api/deleteproduct/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    })
+    console.log(data)
+    setIsDeleted((prevValue) => !prevValue)
+  }
   useEffect(() => {
     async function getUserProducts() {
       const { data } = await axios.get('/api/userproducts/', {
@@ -20,17 +32,21 @@ function MyProducts() {
       setProducts(data)
     }
     getUserProducts()
-  }, [])
+  }, [isDeleted])
+  if (products.length == 0) {
+    return <h1 className='text-center'>You have no Products!!!</h1>
+  }
   return (
     <Container>
       <Button
         variant='danger'
         onClick={() => {
           dispatch(logout())
+          navigate('/login')
         }}
         style={{ width: '150px', marginLeft: '90%' }}
       >
-        Danger
+        Logout
       </Button>
 
       <h1 className='text-center'>My Products</h1>
@@ -53,7 +69,7 @@ function MyProducts() {
                   <i
                     className='fa-solid fa-trash'
                     onClick={() => {
-                      console.log(id)
+                      handleDelete(id)
                     }}
                     style={{ cursor: 'pointer' }}
                   ></i>
