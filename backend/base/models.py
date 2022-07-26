@@ -6,10 +6,8 @@ import uuid
     
 
 class Product(models.Model):
-
  perHr = 'per hr'
  perDay = 'per day'
- perWeek = 'per week'
  user = models.ForeignKey(User,on_delete=models.SET_NULL,null = True)
  name = models.CharField(max_length=200)
  image = models.ImageField(null=True,blank=True)
@@ -20,7 +18,6 @@ class Product(models.Model):
  CHOICES = [
   (perHr,'Per Hour'),
   (perDay,'Per Day'),
-  (perWeek,'Per Week')
  ]
  rentDuration = models.CharField(max_length=10,choices=CHOICES,null=True,blank=True)
  createdAt = models.DateTimeField(auto_now_add=True)

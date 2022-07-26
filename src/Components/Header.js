@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../features/user/userSlice'
@@ -33,12 +34,17 @@ export default function Header() {
               </LinkContainer>
               {userInfo ? (
                 <>
-                  <LinkContainer to='/profile'>
-                    <Nav.Link>
-                      <i className='fa-solid fa-user me-1'></i>
-                      {userInfo.name}
-                    </Nav.Link>
-                  </LinkContainer>
+                  <NavDropdown
+                    title={userInfo.name}
+                    id='navbarScrollingDropdown'
+                  >
+                    <LinkContainer to='/profile'>
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to={`${userInfo.name}/products`}>
+                      <NavDropdown.Item>My Products</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
 
                   <Nav.Link
                     onClick={() => {

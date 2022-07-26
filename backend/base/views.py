@@ -1,3 +1,4 @@
+import ssl
 from tkinter.tix import Tree
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -8,7 +9,6 @@ from .serializers import ProductSerializer,UserSerializer,UserSerializerWithToke
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from . import models
-from . import products
 
 
 @api_view(['GET'])
@@ -80,4 +80,12 @@ def registerUser(request):
   return Response(message,status=status.HTTP_400_BAD_REQUEST)
  serialzer = UserSerializerWithToken(user,many=False)
  return Response(serialzer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProducts(request):
+  user = request.user
+  userProducts = models.Product.objects.filter(user = user)
+  serializer = ProductSerializer(userProducts,many=True)
+  return Response(serializer.data)
 
