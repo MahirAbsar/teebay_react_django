@@ -13,7 +13,7 @@ class Product(models.Model):
     image = models.ImageField(null=True,blank=True)
     category = models.ManyToManyField('Category')
     description = models.TextField(null=True,blank=True)
-    price = models.DecimalField(max_digits=6,decimal_places=2)
+    price = models.DecimalField(max_digits=6,decimal_places=2,null=True,blank = True)
     rentPrice =  models.DecimalField(max_digits=6,decimal_places=2,null=True,blank = True)
     CHOICES = [
     (perHr,'Per Hour'),

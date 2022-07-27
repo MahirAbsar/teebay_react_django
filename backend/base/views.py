@@ -1,4 +1,6 @@
 
+from re import S
+from statistics import mode
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes
@@ -151,13 +153,28 @@ def updateProduct(request,pk):
 
 @api_view(['GET'])
 def searchProducts(request):
-  print(request.GET.get('name'))
-  print(request.GET.get('category'))
-  return Response('Hello World')
-  # getProducts = models.Product.objects.filter(Q(name__icontains=name)|Q(name__category__id=category)|Q(price__gte=decimal.Decimal(lowPrice))|Q(price__lte=decimal.Decimal(highPrice)))
+  name  = request.GET.get('name')
+  category = request.GET.get('category')
+  buy = request.GET.get('buy')
+  rent =request.GET.get('rent')
+  lowPrice=  request.GET.get('lowPrice')
+  highPrice = request.GET.get('highPrice')
+  rentType = request.GET.get('rentType')
+  print(name,category,buy,rent,lowPrice,highPrice,rentType)
+  getProductsName = models.Product.objects.filter(name__icontains=name)
+  getProductsCat = getProductsName.filter(category__name__in=[category])
+  if buy == "false" and rent == "false":
+    getProducts = getProductsCat
+    serializer = ProductSerializer(getProducts,many=True)
+    return Response(serializer.data)
+  if buy == "true" and rent=="false":
+    getProducts = getProductsCat.distinct().filter((Q(price__gte=lowPrice)&Q(price__lte=highPrice)))
+    serializer = ProductSerializer(getProducts,many=True)
+    return Response(serializer.data)
+  elif buy == "false" and rent=="true":
+    getProducts = getProductsCat.distinct().filter((Q(rentPrice__gte=lowPrice)&Q(rentPrice__lte=highPrice))&Q(rentDuration=rentType))
+    serializer = ProductSerializer(getProducts,many=True)
+    return Response(serializer.data)
   # print(getProducts)
-  # if (len(getProducts)!=0):
-  #   serializer = ProductSerializer(getProducts,many=True)
-  #   return Response(serializer.data)
-  # else:
-  #   return Response("No Product Found.....")
+  # serializer = ProductSerializer(getProducts,many=True)
+  # return Response(serializer.data)

@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import SearchResults from '../Components/SearchResults'
 import axios from 'axios'
 function BrowseProducts() {
-  const [products, setProducts] = useState([])
-  const [isBuy, setIsBuy] = useState(false)
-  const [isRent, setIsRent] = useState(false)
-  const [name, setName] = useState('')
-  const [rentType, setRentType] = useState('')
-  const [category, setCategory] = useState('')
-  const [lowPrice, setLowPrice] = useState(0)
-  const [highPrice, setHighPrice] = useState(100)
-  const handleSubmit = async (e) => {
+  let [products, setProducts] = useState([])
+  let [isBuy, setIsBuy] = useState(false)
+  let [isRent, setIsRent] = useState(false)
+  let [name, setName] = useState('')
+  let [rentType, setRentType] = useState('')
+  let [category, setCategory] = useState('')
+  let [lowPrice, setLowPrice] = useState(0)
+  let [highPrice, setHighPrice] = useState(100)
+  let handleSubmit = async (e) => {
     e.preventDefault()
-    if (name == '') name = 'a'
-    const { data } = await axios.get(
-      `/api/search/?name=${name}&category=${category}`
+    // if (name == '') name = 'a'
+    let { data } = await axios.get(
+      `/api/search/?name=${name}&category=${category}&buy=${isBuy}&rent=${isRent}&lowPrice=${lowPrice}&highPrice=${highPrice}&rentType=${rentType}`
     )
-    console.log(data)
+    setProducts(data)
   }
   return (
     <Container>
@@ -42,7 +43,6 @@ function BrowseProducts() {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value=''></option>
                 <option value='ELECTRONICS'>ELECTRONICS</option>
                 <option value='HOME APPLIANCES'>HOME APPLIANCES</option>
                 <option value='TOYS'>TOYS</option>
@@ -126,9 +126,10 @@ function BrowseProducts() {
                       <Form.Select
                         aria-label='Default select example'
                         value={rentType}
-                        onChange={(e) => setRentType(e.target.value)}
+                        onChange={(e) => {
+                          setRentType(e.target.value)
+                        }}
                       >
-                        <option value=''></option>
                         <option value='per hr'>Hourly</option>
                         <option value='per day'>Daily</option>
                       </Form.Select>
@@ -153,7 +154,10 @@ function BrowseProducts() {
               <h1>No products Found</h1>
             </div>
           ) : (
-            <h1 className='text-center'>Products</h1>
+            <>
+              <h1 className='text-center'>Products</h1>
+              <SearchResults products={products} />
+            </>
           )}
         </Col>
       </Row>
