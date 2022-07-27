@@ -8,7 +8,7 @@ function BrowseProducts() {
   let [isRent, setIsRent] = useState(false)
   let [name, setName] = useState('')
   let [rentType, setRentType] = useState('')
-  let [category, setCategory] = useState('')
+  let [category, setCategory] = useState('ELECTRONICS')
   let [lowPrice, setLowPrice] = useState(0)
   let [highPrice, setHighPrice] = useState(100)
   let handleSubmit = async (e) => {
@@ -139,11 +139,7 @@ function BrowseProducts() {
               </div>
             ))}
 
-            <Button
-              disabled={name === '' && category === '' && !isBuy && !isRent}
-              variant='primary'
-              type='submit'
-            >
+            <Button variant='primary' type='submit'>
               Search
             </Button>
           </Form>

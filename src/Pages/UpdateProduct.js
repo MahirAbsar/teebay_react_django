@@ -7,15 +7,20 @@ import axios from 'axios'
 function UpdateProduct() {
   useEffect(() => {
     async function getUserProductDetail() {
-      const { data } = await axios.get(`/api/products/${params.id}`)
-      setProduct(data)
-      setName(data.name)
-      setPrice(data.price)
-      setRentDuration(data.rentDuration)
-      setRentPrice(data.rentPrice)
-      setDescription(data.description)
-      setCategory(data.category)
+      try {
+        const { data } = await axios.get(`/api/products/${params.id}`)
+        setProduct(data)
+        setName(data.name)
+        setPrice(data.price)
+        setRentDuration(data.rentDuration || '')
+        setRentPrice(data.rentPrice || '')
+        setDescription(data.description)
+        setCategory(data.category)
+      } catch (err) {
+        navigate(`/${userInfo.name}/products`)
+      }
     }
+
     getUserProductDetail()
   }, [])
   const { userInfo } = useSelector((store) => store.user)
@@ -92,7 +97,6 @@ function UpdateProduct() {
           value={category}
           onChange={handleCategory}
         >
-          <option>Open this select menu</option>
           <option value='ELECTRONICS'>ELECTRONICS</option>
           <option value='HOME APPLIANCES'>HOME APPLIANCES</option>
           <option value='TOYS'>TOYS</option>

@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 function SearchResults({ products }) {
+  const [isVisible, setIsVisible] = useState(2)
+  const handleLoadMore = () => {
+    setIsVisible((oldState) => oldState + 1)
+  }
   return (
     <div>
-      {products.map((product) => {
+      {products.slice(0, isVisible).map((product) => {
         const {
           id,
           name,
@@ -27,15 +32,6 @@ function SearchResults({ products }) {
             <article className='p-3 rounded my-2'>
               <div className='d-flex justify-content-between align-items-center'>
                 <h1 style={{ maxWidth: '15em' }}>{name}</h1>
-                <h2>
-                  {/* <i
-                    className='fa-solid fa-trash'
-                    onClick={() => {
-                      handleDelete(id)
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  ></i> */}
-                </h2>
               </div>
               <h6>Category: {category.join('| ')} </h6>
               <p>Price: {price ? '$' + price : 'Not For Sell'}</p>
@@ -53,6 +49,14 @@ function SearchResults({ products }) {
           </LinkContainer>
         )
       })}
+
+      <Button
+        color='primary'
+        style={{ display: 'block', margin: '10px auto' }}
+        onClick={handleLoadMore}
+      >
+        Load More
+      </Button>
     </div>
   )
 }

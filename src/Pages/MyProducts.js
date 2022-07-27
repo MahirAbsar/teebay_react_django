@@ -33,7 +33,24 @@ function MyProducts() {
     getUserProducts()
   }, [isDeleted])
   if (products.length == 0) {
-    return <h1 className='text-center'>You have no Products!!!</h1>
+    return (
+      <>
+        <Container>
+          <h1 className='text-center'>You have no Products!!!</h1>
+          <LinkContainer
+            to='/addproduct'
+            style={{ display: 'block', margin: '30px' }}
+          >
+            <Button
+              variant='primary'
+              style={{ display: 'block', margin: '30px auto' }}
+            >
+              Add A Product
+            </Button>
+          </LinkContainer>
+        </Container>
+      </>
+    )
   }
   return (
     <Container>
@@ -53,34 +70,33 @@ function MyProducts() {
         {products.map((product) => {
           const { id, name, price, description, category } = product
           return (
-            <LinkContainer
-              key={id}
-              to={`/updateproduct/${id}`}
+            <article
+              className='p-3 rounded my-2'
               style={{
                 border: '2px solid black',
                 width: '50rem',
                 margin: '0 auto 0 auto',
-                cursor: 'pointer',
               }}
             >
-              <article className='p-3 rounded my-2'>
-                <div className='d-flex justify-content-between align-items-center'>
-                  <h1 style={{ maxWidth: '15em' }}>{name}</h1>
-                  <h2>
-                    <i
-                      className='fa-solid fa-trash'
-                      onClick={() => {
-                        handleDelete(id)
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    ></i>
-                  </h2>
-                </div>
-                <h6>Category: {category.join('| ')} </h6>
-                <p>Price: ${price}</p>
-                <p className='lead'>{description}</p>
-              </article>
-            </LinkContainer>
+              <div className='d-flex justify-content-between align-items-center'>
+                <h1 style={{ maxWidth: '15em' }}>{name}</h1>
+                <h2>
+                  <i
+                    className='fa-solid fa-trash'
+                    onClick={() => {
+                      handleDelete(id)
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  ></i>
+                </h2>
+              </div>
+              <LinkContainer key={id} to={`/updateproduct/${id}`}>
+                <Button color='warning'>Update Item</Button>
+              </LinkContainer>
+              <h6>Category: {category.join('| ')} </h6>
+              <p>Price: ${price}</p>
+              <p className='lead'>{description}</p>
+            </article>
           )
         })}
       </section>

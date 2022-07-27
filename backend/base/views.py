@@ -160,7 +160,6 @@ def searchProducts(request):
   lowPrice=  request.GET.get('lowPrice')
   highPrice = request.GET.get('highPrice')
   rentType = request.GET.get('rentType')
-  print(name,category,buy,rent,lowPrice,highPrice,rentType)
   getProductsName = models.Product.objects.filter(name__icontains=name)
   getProductsCat = getProductsName.filter(category__name__in=[category])
   if buy == "false" and rent == "false":
@@ -175,6 +174,3 @@ def searchProducts(request):
     getProducts = getProductsCat.distinct().filter((Q(rentPrice__gte=lowPrice)&Q(rentPrice__lte=highPrice))&Q(rentDuration=rentType))
     serializer = ProductSerializer(getProducts,many=True)
     return Response(serializer.data)
-  # print(getProducts)
-  # serializer = ProductSerializer(getProducts,many=True)
-  # return Response(serializer.data)
