@@ -21,7 +21,7 @@ function SearchResults({ products }) {
         return (
           <LinkContainer
             key={id}
-            to={`/updateproduct/${id}`}
+            to={`/checkout?id=${id}&name=${name}&price=${price}&rentPrice=${rentPrice}&description=${description}&`}
             style={{
               border: '2px solid black',
               width: '50rem',
