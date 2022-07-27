@@ -11,6 +11,7 @@ from . import models
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 import decimal
+from django.db.models import Q
 
 @api_view(['GET'])
 def getProducts(request):
@@ -147,3 +148,16 @@ def updateProduct(request,pk):
   serialzer = ProductSerializer(getProduct,many = False)
   return Response(serialzer.data)
 
+
+@api_view(['GET'])
+def searchProducts(request):
+  print(request.GET.get('name'))
+  print(request.GET.get('category'))
+  return Response('Hello World')
+  # getProducts = models.Product.objects.filter(Q(name__icontains=name)|Q(name__category__id=category)|Q(price__gte=decimal.Decimal(lowPrice))|Q(price__lte=decimal.Decimal(highPrice)))
+  # print(getProducts)
+  # if (len(getProducts)!=0):
+  #   serializer = ProductSerializer(getProducts,many=True)
+  #   return Response(serializer.data)
+  # else:
+  #   return Response("No Product Found.....")
