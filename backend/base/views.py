@@ -10,7 +10,7 @@ from rest_framework import status
 from . import models
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+import decimal
 
 @api_view(['GET'])
 def getProducts(request):
@@ -94,5 +94,28 @@ def deleteProduct(request,pk):
   product = models.Product.objects.get(id=pk)
   product.delete()
   return Response('Product Deleted')
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def addProduct(request):
+  data = request.data
+  categoryList = []
+  for category in data['category']:
+    categoryId = models.Category.objects.get(name=category)
+    categoryList.append(categoryId.id)
+  user =request.user
+  product = models.Product.objects.create(
+    user = request.user,
+    name = data['name'],
+    price = decimal.Decimal(data['price']),
+    description = data['description'],
+    rentPrice = decimal.Decimal(data['rentPrice']),
+    rentDuration = data['rentDuration']
+  )
+  
+  product.category.set(categoryList)
+  product.save()
+  serialzer = ProductSerializer(product,many = False)
+  return Response(serialzer.data)
 
 

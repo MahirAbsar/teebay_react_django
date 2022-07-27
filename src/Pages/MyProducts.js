@@ -4,13 +4,13 @@ import { Container, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
 import { logout } from '../features/user/userSlice'
 import axios from 'axios'
+import { LinkContainer } from 'react-router-bootstrap'
 function MyProducts() {
   const [products, setProducts] = useState([])
   const [isDeleted, setIsDeleted] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((store) => store.user)
-  console.log(userInfo.token)
   const handleDelete = async (id) => {
     const { data } = await axios.delete(`/api/deleteproduct/${id}`, {
       headers: {
@@ -18,7 +18,6 @@ function MyProducts() {
         Authorization: `Bearer ${userInfo.token}`,
       },
     })
-    console.log(data)
     setIsDeleted((prevValue) => !prevValue)
   }
   useEffect(() => {
@@ -82,6 +81,12 @@ function MyProducts() {
           )
         })}
       </section>
+      <LinkContainer
+        to='/addproduct'
+        style={{ width: '150px', marginLeft: '90%' }}
+      >
+        <Button variant='primary'>Add A Product</Button>
+      </LinkContainer>
     </Container>
   )
 }
