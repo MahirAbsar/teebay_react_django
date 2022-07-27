@@ -53,31 +53,34 @@ function MyProducts() {
         {products.map((product) => {
           const { id, name, price, description, category } = product
           return (
-            <article
+            <LinkContainer
               key={id}
-              className='p-3 rounded my-2'
+              to={`/updateproduct/${id}`}
               style={{
                 border: '2px solid black',
                 width: '50rem',
                 margin: '0 auto 0 auto',
+                cursor: 'pointer',
               }}
             >
-              <div className='d-flex justify-content-between align-items-center'>
-                <h1 style={{ maxWidth: '15em' }}>{name}</h1>
-                <h2>
-                  <i
-                    className='fa-solid fa-trash'
-                    onClick={() => {
-                      handleDelete(id)
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  ></i>
-                </h2>
-              </div>
-              <h6>Category: {category.join('| ')} </h6>
-              <p>Price: ${price}</p>
-              <p className='lead'>{description}</p>
-            </article>
+              <article className='p-3 rounded my-2'>
+                <div className='d-flex justify-content-between align-items-center'>
+                  <h1 style={{ maxWidth: '15em' }}>{name}</h1>
+                  <h2>
+                    <i
+                      className='fa-solid fa-trash'
+                      onClick={() => {
+                        handleDelete(id)
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    ></i>
+                  </h2>
+                </div>
+                <h6>Category: {category.join('| ')} </h6>
+                <p>Price: ${price}</p>
+                <p className='lead'>{description}</p>
+              </article>
+            </LinkContainer>
           )
         })}
       </section>

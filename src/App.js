@@ -11,6 +11,7 @@ import MyProducts from './Pages/MyProducts'
 import { useSelector } from 'react-redux'
 import ModalComponent from './Components/ModalComponent'
 import AddProduct from './Pages/AddProduct'
+import UpdateProduct from './Pages/UpdateProduct'
 function App() {
   const { isOpen } = useSelector((store) => store.modal)
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/addproduct' element={<AddProduct />} />
+            <Route path='/updateproduct/:id' element={<UpdateProduct />} />
             <Route path='/profile' element={<UpdateUser />} />
           </Routes>
         </main>

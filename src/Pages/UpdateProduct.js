@@ -1,11 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import FormContainer from '../Components/FormContainer'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { Form, Button, FloatingLabel } from 'react-bootstrap'
-function AddProduct() {
+import axios from 'axios'
+function UpdateProduct() {
+  useEffect(() => {
+    async function getUserProductDetail() {
+      const { data } = await axios.get(`/api/products/${params.id}`)
+      setProduct(data)
+      setName(data.name)
+      setPrice(data.price)
+      setRentDuration(data.rentDuration)
+      setRentPrice(data.rentPrice)
+      setDescription(data.description)
+      setCategory(data.category)
+    }
+    getUserProductDetail()
+  }, [])
   const { userInfo } = useSelector((store) => store.user)
+  const [product, setProduct] = useState({})
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState([])
@@ -13,18 +27,21 @@ function AddProduct() {
   const [rentPrice, setRentPrice] = useState('')
   const [rentDuration, setRentDuration] = useState('')
   const navigate = useNavigate()
+  const params = useParams()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { data } = await axios.post(
-      '/api/addproduct/',
-      {
-        name,
-        price,
-        category,
-        description,
-        rentPrice,
-        rentDuration,
-      },
+    const newProductInfo = {
+      name,
+      price,
+      category,
+      rentPrice,
+      rentDuration,
+      description,
+    }
+    const { data } = await axios.put(
+      `/api/updateproduct/${product.id}/`,
+      newProductInfo,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -32,13 +49,7 @@ function AddProduct() {
         },
       }
     )
-    navigate(`/${userInfo.name}/products`)
-    setName('')
-    setPrice('')
-    setCategory([])
-    setDescription('')
-    setRentPrice('')
-    setRentDuration('')
+    navigate(`/${userInfo.name}/products/`)
   }
   const handleCategory = (e) => {
     const selected = []
@@ -58,7 +69,7 @@ function AddProduct() {
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder='Your Name'
+            placeholder='Product Name'
           />
         </Form.Group>
         <Form.Group className='mb-3' controlId='formBasicPrice'>
@@ -78,6 +89,7 @@ function AddProduct() {
         <Form.Select
           aria-label='Default select example'
           multiple
+          value={category}
           onChange={handleCategory}
         >
           <option>Open this select menu</option>
@@ -127,11 +139,11 @@ function AddProduct() {
           </Form.Select>
         </Form.Group>
         <Button variant='primary' type='submit' className='d-block mx-auto'>
-          Add
+          Update
         </Button>
       </Form>
     </FormContainer>
   )
 }
 
-export default AddProduct
+export default UpdateProduct

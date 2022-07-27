@@ -99,6 +99,7 @@ def deleteProduct(request,pk):
 @permission_classes([IsAuthenticated])
 def addProduct(request):
   data = request.data
+  print("DATA::::  ",data)
   categoryList = []
   for category in data['category']:
     categoryId = models.Category.objects.get(name=category)
@@ -118,4 +119,31 @@ def addProduct(request):
   serialzer = ProductSerializer(product,many = False)
   return Response(serialzer.data)
 
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateProduct(request,pk):
+  data = request.data
+  print(data)
+  getProduct = models.Product.objects.get(id=pk)
+  if data['name'] !="":
+    getProduct.name = data['name']
+  if data['price'] != "":
+    getProduct.price = decimal.Decimal(data['price'])
+  if data['description'] != '':
+    getProduct.description = data['description']
+  if data['rentPrice']!= "":
+    getProduct.rentPrice = decimal.Decimal(data['rentPrice'])
+  if data["rentDuration"]  != "":
+    getProduct.rentDuration = data['rentDuration']
+  if len(data['category'])!=0:
+    categoryList = []
+    for category in data['category']:
+      print("CATEGORY::::",category)
+      categoryId = models.Category.objects.get(name=category)
+      categoryList.append(categoryId.id) 
+      getProduct.category.set(categoryList)
+  getProduct.save()
+  serialzer = ProductSerializer(getProduct,many = False)
+  return Response(serialzer.data)
 
