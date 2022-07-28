@@ -14,5 +14,8 @@ urlpatterns = [
     path('users/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('users/info/',views.getUserInfo,name="getUserInfo"),
     path('users/registeruser/',views.registerUser,name='registerUser'),
-    path('users/updateuser/',views.updateUserInfo,name="updateUser")
+    path('users/updateuser/',views.updateUserInfo,name="updateUser"),
+    
+
+    path('users/addtocart/',views.addToCart,name="addToCart")
 ]

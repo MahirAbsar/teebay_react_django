@@ -1,4 +1,5 @@
 
+from math import prod
 from re import S
 from statistics import mode
 from django.shortcuts import render
@@ -174,3 +175,35 @@ def searchProducts(request):
     getProducts = getProductsCat.distinct().filter((Q(rentPrice__gte=lowPrice)&Q(rentPrice__lte=highPrice))&Q(rentDuration=rentType))
     serializer = ProductSerializer(getProducts,many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def addToCart(request):
+  data = request.data
+  product = models.Product.objects.get(id=data['id'])
+  if data['type'] == 'buy':
+    obj1,created = models.Cart.objects.get_or_create(
+      user = User.objects.get(id=product.user.id),
+      product = product,
+      type="Sold"
+    )
+    print(obj1,created)
+    obj2,created = models.Cart.objects.get_or_create(
+    user = request.user,
+    product = product,
+    type="Purchased",
+  )
+    print(obj2,created)
+    return Response("Product Added to the cart") if created else Response("Prodcut Already Added")
+      
+  if data['type'] == 'rent':
+      obj3,created = models.Cart.objects.get_or_create(
+      user = request.user,
+      product = product,
+      type="Rented",
+      rentStart= data['rentStart'],
+      rentEnd= data['rentEnd']
+    )
+      return Response("Product Added to the cart") if created else Response("Prodcut Already Added")
+      
+

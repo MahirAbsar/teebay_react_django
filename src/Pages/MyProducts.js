@@ -72,6 +72,7 @@ function MyProducts() {
           return (
             <article
               className='p-3 rounded my-2'
+              key={id}
               style={{
                 border: '2px solid black',
                 width: '50rem',

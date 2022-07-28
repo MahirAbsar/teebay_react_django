@@ -1,17 +1,22 @@
 import { useDispatch } from 'react-redux'
-import { closeModal } from '../features/modal/modalSlice'
-const ModalComponent = () => {
+import {
+  cancelAction,
+  closeModal,
+  confirmAction,
+} from '../features/modal/modalSlice'
+const ModalComponent = ({ message, data }) => {
   const dispatch = useDispatch()
   return (
-    <aside className='modal-container'>
+    <aside className='custom-modal-container'>
       <div className='custom-modal'>
-        <h4>Are you Sure You Want To Delet This Product?</h4>
+        <h4>{message}</h4>
         <div className='btn-container'>
           <button
             type='button'
             className='btn btn-danger'
             onClick={() => {
               dispatch(closeModal())
+              dispatch(cancelAction())
             }}
           >
             No
@@ -21,6 +26,7 @@ const ModalComponent = () => {
             className='btn btn-primary'
             onClick={() => {
               dispatch(closeModal())
+              dispatch(confirmAction(data))
             }}
           >
             Yes

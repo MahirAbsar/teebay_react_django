@@ -55,6 +55,7 @@ function AddProduct() {
             <strong>Name</strong>
           </Form.Label>
           <Form.Control
+            required
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -66,6 +67,7 @@ function AddProduct() {
             <strong>Price</strong>
           </Form.Label>
           <Form.Control
+            required
             type='number'
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -76,11 +78,11 @@ function AddProduct() {
           <strong>Category</strong>
         </Form.Label>
         <Form.Select
+          required
           aria-label='Default select example'
           multiple
           onChange={handleCategory}
         >
-          <option>Open this select menu</option>
           <option value='ELECTRONICS'>ELECTRONICS</option>
           <option value='HOME APPLIANCES'>HOME APPLIANCES</option>
           <option value='TOYS'>TOYS</option>
@@ -106,6 +108,7 @@ function AddProduct() {
             <strong>RentPrice</strong>
           </Form.Label>
           <Form.Control
+            required
             type='number'
             value={rentPrice}
             onChange={(e) => setRentPrice(e.target.value)}
@@ -117,11 +120,11 @@ function AddProduct() {
             <strong>Rent Duration</strong>
           </Form.Label>
           <Form.Select
+            required
             aria-label='Default select example'
             value={rentDuration}
             onChange={(e) => setRentDuration(e.target.value)}
           >
-            <option>Open this select menu</option>
             <option value='per hr'>Hourly</option>
             <option value='per day'>Daily</option>
           </Form.Select>

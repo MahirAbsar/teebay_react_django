@@ -18,7 +18,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {isOpen && <ModalComponent />}
         <Header />
         <main className='py-3'>
           <Routes>
