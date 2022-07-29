@@ -106,6 +106,7 @@ def addProduct(request):
   print("DATA::::  ",data)
   categoryList = []
   for category in data['category']:
+    createCat,created = models.Category.objects.get_or_create(name=category)
     categoryId = models.Category.objects.get(name=category)
     categoryList.append(categoryId.id)
   user =request.user
@@ -158,6 +159,8 @@ def searchProducts(request):
   category = request.GET.get('category')
   buy = request.GET.get('buy')
   rent =request.GET.get('rent')
+  for i in category:
+    createCat,created = models.Category.objects.get_or_create(name=i)
   lowPrice=  request.GET.get('lowPrice')
   highPrice = request.GET.get('highPrice')
   rentType = request.GET.get('rentType')
