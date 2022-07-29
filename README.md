@@ -30,7 +30,7 @@ DATABASES = {
 ```
 
 
-- Create a Database in postgres GUI titled **"dbteebay"**
+- Create a Database in postgres GUI titled **"dbteebay"**  
 postgres and pgadmin was used in this project
 
 
