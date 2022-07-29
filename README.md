@@ -15,8 +15,6 @@ pip install -r requirements.txt
 
 - Go to "backend" folder and in settings.py file, in DATABASES dictionary provide your password for the superuser set in postgres
 ```python
-cd backend
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
