@@ -33,8 +33,8 @@ class Category(models.Model):
         return self.name
  
 class Cart(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True,blank=True)
     type = models.CharField(max_length=100,null=True,blank=True)
     rentStart = models.DateField(blank=True,null=True)
     rentEnd = models.DateField(blank=True,null=True)

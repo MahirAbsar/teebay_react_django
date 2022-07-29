@@ -27,11 +27,7 @@ export default function Header() {
                   Products
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <i className='fa-solid fa-cart-shopping me-1'></i>Cart
-                </Nav.Link>
-              </LinkContainer>
+
               {userInfo ? (
                 <>
                   <NavDropdown
@@ -45,7 +41,11 @@ export default function Header() {
                       <NavDropdown.Item>My Products</NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
-
+                  <LinkContainer to={`/cart/${userInfo.id}`}>
+                    <Nav.Link>
+                      <i className='fa-solid fa-cart-shopping me-1'></i>My Cart
+                    </Nav.Link>
+                  </LinkContainer>
                   <Nav.Link
                     onClick={() => {
                       dispatch(logout())

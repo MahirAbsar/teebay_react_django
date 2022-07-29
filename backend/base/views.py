@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import ProductSerializer,UserSerializer,UserSerializerWithToken
+from .serializers import ProductSerializer,UserSerializer,UserSerializerWithToken,CartSerializer
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from . import models
@@ -206,4 +206,11 @@ def addToCart(request):
     )
       return Response("Product Added to the cart") if created else Response("Prodcut Already Added")
       
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserCart(request,pk):
+  cart = models.Cart.objects.filter(user=User.objects.get(id=pk))
+  print("CART---------",cart)
+  serializer = CartSerializer(cart,many=True)
+  return Response(serializer.data)
 

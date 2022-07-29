@@ -13,6 +13,7 @@ import ModalComponent from './Components/ModalComponent'
 import AddProduct from './Pages/AddProduct'
 import UpdateProduct from './Pages/UpdateProduct'
 import CheckoutPage from './Pages/CheckoutPage'
+import MyCart from './Pages/MyCart'
 function App() {
   const { isOpen } = useSelector((store) => store.modal)
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='/updateproduct/:id' element={<UpdateProduct />} />
             <Route path='/profile' element={<UpdateUser />} />
             <Route path='/checkout' element={<CheckoutPage />} />
+            <Route path='/cart/:id' element={<MyCart />} />
           </Routes>
         </main>
         <Footer />

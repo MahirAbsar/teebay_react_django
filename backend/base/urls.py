@@ -17,5 +17,6 @@ urlpatterns = [
     path('users/updateuser/',views.updateUserInfo,name="updateUser"),
     
 
-    path('users/addtocart/',views.addToCart,name="addToCart")
+    path('users/addtocart/',views.addToCart,name="addToCart"),
+    path('users/cart/<str:pk>/',views.getUserCart,name="getUserCart")
 ]

@@ -1,3 +1,4 @@
+from math import prod
 from unicodedata import category
 from rest_framework import serializers
 from . import models
@@ -34,5 +35,12 @@ class UserSerializerWithToken(UserSerializer):
  def get_token(self,obj):
   token = RefreshToken.for_user(obj)
   return str(token.access_token)
+
+class CartSerializer(serializers.ModelSerializer):
+  product = serializers.StringRelatedField(many=False,read_only=True)
+  user = serializers.StringRelatedField(many=False,read_only=True)
+  class Meta:
+    model = models.Cart
+    fields = "__all__"
   
 

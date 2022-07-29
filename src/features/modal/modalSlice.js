@@ -15,7 +15,7 @@ const modalSlice = createSlice({
     closeModal: (state, action) => {
       state.isOpen = false
     },
-    confirmAction: (state, { payload: { id, type, user } }) => {
+    confirmBuyAction: (state, { payload: { id, type, user } }) => {
       axios
         .post(
           '/api/users/addtocart/',
@@ -32,13 +32,43 @@ const modalSlice = createSlice({
           console.log(err)
         })
     },
+    confirmRentAction: (
+      state,
+      { payload: { id, type, user, startDate: rentStart, endDate: rentEnd } }
+    ) => {
+      if ((rentStart, rentEnd)) {
+        axios
+          .post(
+            '/api/users/addtocart/',
+            {
+              id,
+              type: 'rent',
+              rentStart,
+              rentEnd,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user}`,
+              },
+            }
+          )
+          .then(({ data }) => console.log(data))
+          .catch((err) => console.log(err))
+      }
+    },
     cancelAction: (state, action) => {
       state.isConfirm = false
     },
   },
 })
 
-export const { openModal, closeModal, confirmAction, cancelAction } =
-  modalSlice.actions
+export const {
+  openModal,
+  closeModal,
+  confirmBuyAction,
+  confirmRentAction,
+  cancelAction,
+} = modalSlice.actions
 
 export default modalSlice.reducer
