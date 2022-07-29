@@ -1,12 +1,5 @@
 # How to run this Project
 
-- Activate the virtual environment  
-  In the base project directory execute this command
-
-```
-env\scripts\actiavte
-```
-
 - Install the packages used in React  
   In the base project directory execute this command
 
@@ -20,12 +13,31 @@ npm install
 pip install -r requirements.txt
 ```
 
-- Create a Database in postgres GUI titled **"dbtreebay"**
+- Go to "backend" folder and paste the "DATABASES" dictionary mentioned below in settings.py file. Provide your password for the superuser set in postgres
+```python
+cd backend
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dbteebay',
+        'USER': 'postgres', 
+        'PASSWORD': <SUPER USER PASSWORD>,
+        'HOST': 'localhost', 
+        'PORT': '5432',
+    }
+}
+```
+
+
+- Create a Database in postgres GUI titled **"dbteebay"**
+postgres and pgadmin was used in this project
+
+
 
 - Run Migrations
 
 ```
-cd backend
 py manage.py makemigrations
 py manage.py migrate
 ```
@@ -39,5 +51,6 @@ py manage.py runserver
 - Start React Server
 
 ```javascript
+cd ../
 npm start
 ```
