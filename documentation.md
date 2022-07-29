@@ -56,7 +56,7 @@ From there, user can purchase or rent any product.
 
 ## 4. Buy/Rent Products
 
-Only an authenticated user can make a purchase or rent a product. No payment gateway was implemented in order to fully make that buy/rent feature functional. But if an user, clicks on the Buy button, a modal will appear on the screen and after confirmation that product will be added. Same thing will happen for rent option. There will be start date and an end date and user can rent that product. But, a user cannot buy or rent a product that he himself posted. If a user makes a purchase, there will be two requires executed simultaneously, one query will add that user as a buyer for that product and another query will insert the user who posted that product as a seller.
+Only an authenticated user can make a purchase or rent a product. No payment gateway was implemented in order to fully make that buy/rent feature functional. But if an user, clicks on the Buy button, a modal will appear on the screen and after confirmation that product will be added. Same thing will happen for rent option. There will be start date and an end date and user can rent that product. But, a user cannot buy or rent a product that he himself posted. If a user makes a purchase, there will be two requires executed simultaneously, one query will add that user as a buyer for that product and another query will insert the user who posted that product as a seller.Finally, an user cannot buy a product multiple times. To take care of it in the backend query _get_or_create_ was implemented.
 
 # Conclusion
 
