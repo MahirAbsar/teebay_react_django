@@ -13,7 +13,7 @@ npm install
 pip install -r requirements.txt
 ```
 
-- Go to "backend" folder and paste the "DATABASES" dictionary mentioned below in settings.py file. Provide your password for the superuser set in postgres
+- Go to "backend" folder and in settings.py file, in DATABASES dictionary provide your password for the superuser set in postgres
 ```python
 cd backend
 
