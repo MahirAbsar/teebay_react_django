@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Form from 'react-bootstrap/Form'
 import FormContainer from '../Components/FormContainer'
 import axios from 'axios'
-import { login } from '../features/user/userSlice'
+import { logout } from '../features/user/userSlice'
 function UpdateUser() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -42,7 +42,9 @@ function UpdateUser() {
         password: data.password,
       }
       localStorage.setItem('userInfo', JSON.stringify(newUserInfo))
-      dispatch(login())
+      // dispatch(login())
+      dispatch(logout())
+      navigate('/login')
     } catch (err) {
       console.log(err)
     }

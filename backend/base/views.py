@@ -1,7 +1,3 @@
-
-from math import prod
-from re import S
-from statistics import mode
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes
@@ -21,8 +17,6 @@ def getProducts(request):
   products = models.Product.objects.all()
   serialzer = ProductSerializer(products,many =True)
   return Response(serialzer.data)
-
-
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
  def validate(self, attrs):
@@ -103,7 +97,6 @@ def deleteProduct(request,pk):
 @permission_classes([IsAuthenticated])
 def addProduct(request):
   data = request.data
-  print("DATA::::  ",data)
   categoryList = []
   for category in data['category']:
     createCat,created = models.Category.objects.get_or_create(name=category)
@@ -129,7 +122,6 @@ def addProduct(request):
 @permission_classes([IsAuthenticated])
 def updateProduct(request,pk):
   data = request.data
-  print(data)
   getProduct = models.Product.objects.get(id=pk)
   if data['name'] !="":
     getProduct.name = data['name']
@@ -144,7 +136,6 @@ def updateProduct(request,pk):
   if len(data['category'])!=0:
     categoryList = []
     for category in data['category']:
-      print("CATEGORY::::",category)
       categoryId = models.Category.objects.get(name=category)
       categoryList.append(categoryId.id) 
       getProduct.category.set(categoryList)
@@ -184,6 +175,8 @@ def searchProducts(request):
 def addToCart(request):
   data = request.data
   product = models.Product.objects.get(id=data['id'])
+  # print("DATA:::::",data)
+  print("PRODUCT:::",product)
   if data['type'] == 'buy':
     obj1,created = models.Cart.objects.get_or_create(
       user = User.objects.get(id=product.user.id),
@@ -213,7 +206,6 @@ def addToCart(request):
 @permission_classes([IsAuthenticated])
 def getUserCart(request,pk):
   cart = models.Cart.objects.filter(user=User.objects.get(id=pk))
-  print("CART---------",cart)
   serializer = CartSerializer(cart,many=True)
   return Response(serializer.data)
 

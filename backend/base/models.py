@@ -11,7 +11,6 @@ class Product(models.Model):
     perDay = 'per day'
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null = True)
     name = models.CharField(max_length=200)
-    image = models.ImageField(null=True,blank=True)
     category = models.ManyToManyField('Category')
     description = models.TextField(null=True,blank=True)
     price = models.DecimalField(max_digits=6,decimal_places=2,default=0)
@@ -32,6 +31,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
  
+
+    def __str__(self):
+        return str(self.name)
+    
 class Cart(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True,blank=True)

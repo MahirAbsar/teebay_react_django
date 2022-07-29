@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 function SearchResults({ products }) {
-  console.log(products)
   const [isVisible, setIsVisible] = useState(2)
   const handleLoadMore = () => {
     setIsVisible((oldState) => oldState + 1)
@@ -24,7 +23,7 @@ function SearchResults({ products }) {
         return (
           <LinkContainer
             key={id}
-            to={`/checkout?id=${id}&name=${name}&price=${price}&rentPrice=${rentPrice}&description=${description}&user=${user}`}
+            to={`/checkout?id=${id}&name=${name}&price=${price}&rentPrice=${rentPrice}&description=${description}&user=${user}&rentDuration=${rentDuration}`}
             style={{
               border: '2px solid black',
               width: '50rem',

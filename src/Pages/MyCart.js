@@ -23,6 +23,9 @@ function MyCart() {
     }
     getUserCart()
   }, [])
+  if (cart.length == 0) {
+    return <h1 className='text-center'>No Item Bought,rented or Sold</h1>
+  }
   return (
     <Container>
       {cart.map((singleProduct) => {

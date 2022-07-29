@@ -33,6 +33,7 @@ function CheckoutPage() {
   let name = searchParams.get('name')
   let price = searchParams.get('price')
   let rentPrice = searchParams.get('rentPrice')
+  let rentDuration = searchParams.get('rentDuration')
   let description = searchParams.get('description')
   let [isBuy, setIsBuy] = useState(false)
   let [type, setType] = useState('')
@@ -42,7 +43,9 @@ function CheckoutPage() {
         <Container>
           <h1>{name}</h1>
           <h3>Price: {price}</h3>
-          <h3>Rent Price:${rentPrice}</h3>
+          <h3>
+            Rent Price:${rentPrice} {rentDuration}
+          </h3>
           <p>{description}</p>
         </Container>
       )
@@ -66,10 +69,12 @@ function CheckoutPage() {
           }}
         />
       )}
-      <Container>
+      <Container className='p-6'>
         <h1>{name}</h1>
         <h3>Price: {price}</h3>
-        <h3>Rent Price:${rentPrice}</h3>
+        <h3>
+          Rent Price:${rentPrice} {rentDuration}
+        </h3>
         <p>{description}</p>
         {userInfo ? (
           <div className='my-3'>
@@ -82,6 +87,7 @@ function CheckoutPage() {
               Buy
             </Button>
             <Button
+              className='mx-2'
               variant='secondary'
               onClick={() => {
                 setIsBuy(false)

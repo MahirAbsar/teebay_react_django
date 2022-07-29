@@ -137,7 +137,6 @@ function UpdateProduct() {
             value={rentDuration}
             onChange={(e) => setRentDuration(e.target.value)}
           >
-            <option>Open this select menu</option>
             <option value='per hr'>Hourly</option>
             <option value='per day'>Daily</option>
           </Form.Select>

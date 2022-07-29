@@ -1,5 +1,6 @@
 main {
   min-height: 85vh;
+  position: relative;
 }
 .custom-modal-container {
   position: fixed;
@@ -34,4 +35,82 @@ main {
 .btn-container {
   display: flex;
   justify-content: space-around;
+}
+.loader-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: ' ';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #222;
+  border-color: #222 transparent #222 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationItem {
+  background: #fff;
+  border: 2px solid #666;
+  padding: 10px 15px;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  position: relative;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.paginationItem span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.prev,
+.next {
+  background: #fff;
+  border: none;
+  padding: 10px;
+  color: blue;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.paginationItem.active {
+  border: 1px solid #888;
+  color: #888;
+  pointer-events: none;
+}
+
+.prev.disabled,
+.next.disabled {
+  pointer-events: none;
+  box-shadow: none;
+  color: #999;
 }

@@ -6,32 +6,55 @@ import { logout } from '../features/user/userSlice'
 import axios from 'axios'
 import { LinkContainer } from 'react-router-bootstrap'
 function MyProducts() {
+  const [isLoading, setIsLoading] = useState(false)
   const [products, setProducts] = useState([])
   const [isDeleted, setIsDeleted] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((store) => store.user)
   const handleDelete = async (id) => {
-    const { data } = await axios.delete(`/api/deleteproduct/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    })
-    setIsDeleted((prevValue) => !prevValue)
-  }
-  useEffect(() => {
-    async function getUserProducts() {
-      const { data } = await axios.get('/api/userproducts/', {
+    try {
+      setIsLoading(true)
+      const { data } = await axios.delete(`/api/deleteproduct/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${userInfo.token}`,
         },
       })
-      setProducts(data)
+      setIsLoading(false)
+      setIsDeleted((prevValue) => !prevValue)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    async function getUserProducts() {
+      try {
+        setIsLoading(true)
+        const { data } = await axios.get('/api/userproducts/', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        })
+        setProducts(data)
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
     }
     getUserProducts()
+    setIsLoading(false)
   }, [isDeleted])
+  if (isLoading) {
+    return (
+      <>
+        <div className='loader-container'>
+          <div className='lds-dual-ring'></div>
+        </div>
+      </>
+    )
+  }
   if (products.length == 0) {
     return (
       <>
@@ -54,6 +77,14 @@ function MyProducts() {
   }
   return (
     <Container>
+      {isLoading && (
+        <>
+          <div className='loader-container'>
+            <div className='lds-dual-ring'></div>
+          </div>
+        </>
+      )}
+
       <Button
         variant='danger'
         onClick={() => {
@@ -68,7 +99,15 @@ function MyProducts() {
       <h1 className='text-center'>My Products</h1>
       <section className='py-5'>
         {products.map((product) => {
-          const { id, name, price, description, category } = product
+          const {
+            id,
+            name,
+            price,
+            description,
+            category,
+            rentPrice,
+            rentDuration,
+          } = product
           return (
             <article
               className='p-3 rounded my-2'
@@ -96,6 +135,9 @@ function MyProducts() {
               </LinkContainer>
               <h6>Category: {category.join('| ')} </h6>
               <p>Price: ${price}</p>
+              <p>
+                Rent Price: ${rentPrice} {rentDuration}
+              </p>
               <p className='lead'>{description}</p>
             </article>
           )
