@@ -18,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
   return name
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = models.Profile
+    fields = "__all__"
 class ProductSerializer(serializers.ModelSerializer):
   
   category = serializers.StringRelatedField(many=True,read_only=True)
