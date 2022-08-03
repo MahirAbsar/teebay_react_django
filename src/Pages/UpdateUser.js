@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import Form from 'react-bootstrap/Form'
 import FormContainer from '../Components/FormContainer'
 import axios from 'axios'
@@ -19,13 +17,16 @@ function UpdateUser() {
   }, [])
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(firstName, lastName, address, phoneNumber, email, password)
     try {
       const { data } = await axios.put(
         '/api/users/updateuser/',
         {
-          id: userInfo.id,
-          name,
+          firstName,
+          lastName,
           email,
+          address,
+          phoneNumber,
           password,
         },
         {
@@ -42,34 +43,65 @@ function UpdateUser() {
         password: data.password,
       }
       localStorage.setItem('userInfo', JSON.stringify(newUserInfo))
-      // dispatch(login())
       dispatch(logout())
+      // toast.success('Profile Updated', {
+      //   position: 'top-center',
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // })
       navigate('/login')
     } catch (err) {
       console.log(err)
     }
   }
-
+  const [firstName, setFirstName] = useState(
+    `${userInfo ? userInfo.first_name : ''}`
+  )
+  const [lastName, setLastName] = useState(
+    `${userInfo ? userInfo.last_name : ''}`
+  )
   const [email, setEmail] = useState(`${userInfo ? userInfo.email : ''}`)
-  const [name, setName] = useState(`${userInfo ? userInfo.name : ''}`)
+  const [address, setAddress] = useState(`${userInfo ? userInfo.address : ' '}`)
+  const [phoneNumber, setPhoneNumber] = useState(
+    `${userInfo ? userInfo.phoneNumber : ''}`
+  )
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className='mb-3' controlId='name'>
+        {/* First Name */}
+        <Form.Group className='mb-3' controlId='firstName'>
           <Form.Label>
             <strong>Name</strong>
           </Form.Label>
           <Form.Control
             required
             type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             placeholder='Your Name'
           />
         </Form.Group>
+        {/* Last Name */}
+        <Form.Group className='mb-3' controlId='lastName'>
+          <Form.Label>
+            <strong>Name</strong>
+          </Form.Label>
+          <Form.Control
+            required
+            type='text'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder='Your Name'
+          />
+        </Form.Group>
+        {/* Email */}
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>
             <strong>Email address</strong>
@@ -82,7 +114,32 @@ function UpdateUser() {
             placeholder='Enter email'
           />
         </Form.Group>
-        <Form.Group className='mb-3' controlId='formBasicPassword1'>
+        {/* Address */}
+        <Form.Group className='mb-3' controlId='address'>
+          <Form.Label>
+            <strong>Address</strong>
+          </Form.Label>
+          <Form.Control
+            type='text'
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder='Address'
+          />
+        </Form.Group>
+        {/* Phone Number */}
+        <Form.Group className='mb-3' controlId='phoneNumber'>
+          <Form.Label>
+            <strong>Password</strong>
+          </Form.Label>
+          <Form.Control
+            type='text'
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder='Phone Number'
+          />
+        </Form.Group>
+        {/* Password */}
+        <Form.Group className='mb-3' controlId='formBasicPassword2'>
           <Form.Label>
             <strong>Password</strong>
           </Form.Label>
@@ -93,15 +150,16 @@ function UpdateUser() {
             placeholder='Password'
           />
         </Form.Group>
+        {/* Confirm Password */}
         <Form.Group className='mb-3' controlId='formBasicPassword2'>
           <Form.Label>
-            <strong>Confirm Password</strong>
+            <strong>Password</strong>
           </Form.Label>
           <Form.Control
             type='password'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder='Confirm Password'
+            placeholder='Password'
           />
         </Form.Group>
         <Button variant='primary' type='submit' className='d-block mx-auto'>
@@ -114,17 +172,6 @@ function UpdateUser() {
           </Link>{' '}
         </p>
       </Form>
-      <ToastContainer
-        position='top-center'
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </FormContainer>
   )
 }

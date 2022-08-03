@@ -22,10 +22,11 @@ function SearchResults({ products }) {
         } = product
         return (
           <LinkContainer
+            className='border border-3'
             key={id}
             to={`/checkout?id=${id}&name=${name}&price=${price}&rentPrice=${rentPrice}&description=${description}&user=${user}&rentDuration=${rentDuration}`}
             style={{
-              border: '2px solid black',
+              // border: '2px solid black',
               width: '50rem',
               margin: '0 auto 0 auto',
               cursor: 'pointer',

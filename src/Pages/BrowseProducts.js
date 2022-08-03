@@ -13,7 +13,6 @@ function BrowseProducts() {
   let [highPrice, setHighPrice] = useState(100)
   let handleSubmit = async (e) => {
     e.preventDefault()
-    // if (name == '') name = 'a'
     let { data } = await axios.get(
       `/api/search/?name=${name}&category=${category}&buy=${isBuy}&rent=${isRent}&lowPrice=${lowPrice}&highPrice=${highPrice}&rentType=${rentType}`
     )

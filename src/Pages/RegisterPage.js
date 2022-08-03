@@ -33,22 +33,29 @@ function RegisterPage() {
         address,
         phoneNumber
       )
-      // try {
-      //   const { data } = await axios.post(
-      //     '/api/users/registeruser/',
-      //     { name: name, email: email, password: password },
-      //     {
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //     }
-      //   )
-      //   localStorage.setItem('userInfo', JSON.stringify(data))
-      //   dispatch(login())
-      //   navigate('/')
-      // } catch (err) {
-      //   console.log(err)
-      // }
+      try {
+        const { data } = await axios.post(
+          '/api/users/registeruser/',
+          {
+            firstName,
+            lastName,
+            email,
+            address,
+            phoneNumber,
+            password,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        localStorage.setItem('userInfo', JSON.stringify(data))
+        dispatch(login())
+        navigate('/')
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
   const [firstName, setFirstName] = useState('')
