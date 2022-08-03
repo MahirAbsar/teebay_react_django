@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import ProductSerializer,UserSerializer,UserSerializerWithToken,CartSerializer,ProfileSerializer
+from .serializers import ProductSerializer, UserSerializer,UserSerializerWithToken,CartSerializer
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from . import models
@@ -19,15 +19,16 @@ def getProducts(request):
   return Response(serialzer.data)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
- def validate(self, attrs):
-  data = super().validate(attrs)
-  refresh = self.get_token(self.user)
-  serializer = UserSerializerWithToken(self.user).data
-  for i,j in serializer.items():
-   data[i] = j
-  return data
+  def validate(self, attrs):
+    data = super().validate(attrs)
+    refresh = self.get_token(self.user)
+    serializer = UserSerializerWithToken(self.user).data
+    for i,j in serializer.items():
+      data[i] = j
+    return data
+
 class MyTokenObtainPairView(TokenObtainPairView):
- serializer_class = MyTokenObtainPairSerializer
+  serializer_class = MyTokenObtainPairSerializer
 
 
 @api_view(['GET'])
@@ -42,24 +43,28 @@ def getProduct(request,pk):
 @permission_classes([IsAuthenticated])
 def updateUserInfo(request):
   user = request.user
-  serializer = UserSerializer(user,many=False)
+  getProfile = models.Profile.objects.get(user=user)
   data = request.data
-  user.first_name = data['name']
+  user.first_name = data['firstName']
+  user.last_name  = data['lastName']
   user.username = data['email']
   user.email = data['email']
   if data['password'] != '':
     user.password = make_password(data['password'])
-    
   user.save()
+  getProfile.address = data['address']
+  getProfile.phoneNumber = data['phoneNumber']
+  getProfile.save()
+  serializer = UserSerializer(user,many=False)
   return Response(serializer.data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserInfo(request):
- user = request.user
- serializer = UserSerializer(user,many=False)
- return Response(serializer.data)
+  user = request.user
+  serializer = UserSerializer(user,many=False)
+  return Response(serializer.data)
 
 @api_view(['POST'])
 def registerUser(request):
@@ -67,25 +72,28 @@ def registerUser(request):
   print(request.data)
   try:
     user = User.objects.create(
-    first_name=data['firstName'] +" "+data['lastName'],
+    first_name=data['firstName'],
+    last_name=data['lastName'],
     email=data['email'],
     username=data['email'],
     password= make_password(data['password'])
     )
-    print(User.objects.get(username=data['email']))
-    userProf = models.Profile.objects.create(
-      user = User.objects.get(username=data['email']),
-      firstName=data['firstName'],
-      lastName = data['lastName'],
-      email=data['email'],
-      address = data['address'],
-      phoneNumber = data['phoneNumber'],
-      password = make_password(data['password'])
-    )
+    user.profile.address = data['address']
+    user.profile.phoneNumber = data['phoneNumber']
+    user.save()
+    # user.profile.address = data['address']
+    # user.profile.phoneNumber = data['phoneNumber']
+    # userProf = models.Profile.objects.create(
+    #   user = User.objects.get(username=data['email']),
+    #   address = data['address'],
+    #   phoneNumber = data['phoneNumber'],
+    # )
+
+
   except:
     message = {'details':"User With Same Email Address Already Exists"}
     return Response(message,status=status.HTTP_400_BAD_REQUEST)
-  serialzer = ProfileSerializer(userProf,many=False)
+  serialzer = UserSerializerWithToken(user,many=False)
   return Response(serialzer.data)
 
 @api_view(['GET'])

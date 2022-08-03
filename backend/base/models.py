@@ -9,14 +9,10 @@ import uuid
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
-    firstName = models.CharField(max_length=200,null=True,blank=True)
-    lastName = models.CharField(max_length=200,null=True,blank=True)
     address = models.CharField(max_length=2000,null=True,blank=True)
-    email = models.EmailField(max_length=200,null=True,blank=True)
     phoneNumber = models.CharField(max_length=11,null=True,blank=True)
-    password = models.CharField(max_length=200,null=True,blank=True)
     def __str__(self):
-        return str(self.firstName) +" "+str(self.lastName)
+        return str(self.user)
     
 
 class Product(models.Model):
