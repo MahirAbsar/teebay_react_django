@@ -45,11 +45,11 @@ class UserSerializerWithToken(UserSerializer):
    return str(token.access_token)
  
 
-class CartSerializer(serializers.ModelSerializer):
+class CartItemSerializer(serializers.ModelSerializer):
   product = serializers.StringRelatedField(many=False,read_only=True)
   user = serializers.StringRelatedField(many=False,read_only=True)
   class Meta:
-    model = models.Cart
+    model = models.CartItem
     fields = "__all__"
   
 
