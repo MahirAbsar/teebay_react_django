@@ -24,15 +24,6 @@ function RegisterPage() {
         progress: undefined,
       })
     } else {
-      console.log(
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        address,
-        phoneNumber
-      )
       try {
         const { data } = await axios.post(
           '/api/users/registeruser/',

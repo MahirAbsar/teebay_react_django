@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-// Components Import
 import Product from '../Components/Product'
 import Pagination from '../Components/Pagination'
 import { Container, Row } from 'react-bootstrap'
-// Redux Imports
 import { useSelector, useDispatch } from 'react-redux'
 import { getProducts } from '../features/cart/cartSlice'
 function Home() {

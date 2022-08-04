@@ -17,7 +17,6 @@ function UpdateUser() {
   }, [])
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(firstName, lastName, address, phoneNumber, email, password)
     try {
       const { data } = await axios.put(
         '/api/users/updateuser/',
@@ -44,15 +43,6 @@ function UpdateUser() {
       }
       localStorage.setItem('userInfo', JSON.stringify(newUserInfo))
       dispatch(logout())
-      // toast.success('Profile Updated', {
-      //   position: 'top-center',
-      //   autoClose: 2000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // })
       navigate('/login')
     } catch (err) {
       console.log(err)

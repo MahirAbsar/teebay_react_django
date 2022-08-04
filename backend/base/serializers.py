@@ -46,7 +46,7 @@ class UserSerializerWithToken(UserSerializer):
  
 
 class CartItemSerializer(serializers.ModelSerializer):
-  product = serializers.StringRelatedField(many=False,read_only=True)
+  product = ProductSerializer(many=False)
   user = serializers.StringRelatedField(many=False,read_only=True)
   class Meta:
     model = models.CartItem

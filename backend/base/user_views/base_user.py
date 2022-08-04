@@ -54,7 +54,6 @@ def getUserInfo(request):
 @api_view(['POST'])
 def registerUser(request):
   data = request.data
-  print(request.data)
   try:
     user = User.objects.create(
     first_name=data['firstName'],
@@ -79,21 +78,17 @@ def addToCart(request):
   data = request.data
   cart = models.Cart.objects.get(user = request.user)
   product = models.Product.objects.get(id=data['id'])
-  # print("DATA:::::",data)
-  print("PRODUCT:::",product)
   if data['type'] == 'buy':
     obj1,created = models.CartItem.objects.get_or_create(
       cart = models.Cart.objects.get(user = product.user),
       product = product,
       type="Sold"
     )
-    print(obj1,created)
     obj2,created = models.CartItem.objects.get_or_create(
     cart = cart,
     product = product,
     type="Purchased",
   )
-    print(obj2,created)
     return Response("Product Added to the cart") if created else Response("Prodcut Already Added")
       
   if data['type'] == 'rent':
@@ -107,7 +102,6 @@ def addToCart(request):
     d1 = datetime.strptime(data['rentStart'],"%Y-%m-%d")
     d2 = datetime.strptime(data['rentEnd'],"%Y-%m-%d")
     delta = d2 - d1
-    print(f'Difference is {delta.days} days')
     obj3,created = models.CartItem.objects.get_or_create(
     cart = cart,
     product = product,
@@ -121,6 +115,5 @@ def addToCart(request):
 @permission_classes([IsAuthenticated])
 def getUserCart(request,pk):
   cart = models.CartItem.objects.filter(cart=models.Cart.objects.get(user=request.user))
-  print("CART::::",cart)
   serializer = CartItemSerializer(cart,many=True)
   return Response(serializer.data)

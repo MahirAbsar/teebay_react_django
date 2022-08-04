@@ -7,9 +7,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormContainer from '../Components/FormContainer'
 import { ToastContainer, toast } from 'react-toastify'
-import { loginRequest } from '../features/user/userSlice'
 import 'react-toastify/dist/ReactToastify.css'
 function LoginPage() {
+  // Redirect to homepage if a login user visits this page
   useEffect(() => {
     if (localStorage.getItem('userInfo')) {
       navigate('/')
@@ -22,6 +22,7 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (email && password) {
+      // send request for token,will show error if two user with same email exists
       try {
         const { data } = await axios.post(
           '/api/users/token/',

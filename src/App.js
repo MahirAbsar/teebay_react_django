@@ -2,30 +2,18 @@ import Header from './Components/Header'
 import Footer from './Components/Footer'
 import Home from './Pages/Home'
 import ProductDetail from './Pages/ProductDetail'
-import { useEffect } from 'react'
 import LoginPage from './Pages/LoginPage'
 import BrowseProducts from './Pages/BrowseProducts'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import RegisterPage from './Pages/RegisterPage'
 import UpdateUser from './Pages/UpdateUser'
 import MyProducts from './Pages/MyProducts'
-// import { useSelector, useDispatch } from 'react-redux'
 import AddProduct from './Pages/AddProduct'
 import UpdateProduct from './Pages/UpdateProduct'
 import CheckoutPage from './Pages/CheckoutPage'
 import MyCart from './Pages/MyCart'
-// import Message from './Components/Message'
-// import { showMessage, hideMessage } from './features/cart/cartSlice'
-function App() {
-  // const { isMessage } = useSelector((store) => store.cart)
-  // const dispatch = useDispatch()
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch(hideMessage())
-  //   }, 2000)
-  // }, [isMessage])
-  // const { isOpen } = useSelector((store) => store.modal)
 
+function App() {
   return (
     <>
       <BrowserRouter>
