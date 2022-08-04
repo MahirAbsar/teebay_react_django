@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 function SearchResults({ products }) {
+  // For Date Formatting
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }
   const [isVisible, setIsVisible] = useState(2)
   const handleLoadMore = () => {
     setIsVisible((oldState) => oldState + 1)
@@ -18,6 +24,7 @@ function SearchResults({ products }) {
           category,
           rentPrice,
           rentDuration,
+          createdAt,
           user,
         } = product
         return (
@@ -26,7 +33,6 @@ function SearchResults({ products }) {
             key={id}
             to={`/checkout?id=${id}&name=${name}&price=${price}&rentPrice=${rentPrice}&description=${description}&user=${user}&rentDuration=${rentDuration}`}
             style={{
-              // border: '2px solid black',
               width: '50rem',
               margin: '0 auto 0 auto',
               cursor: 'pointer',
@@ -37,17 +43,15 @@ function SearchResults({ products }) {
                 <h1 style={{ maxWidth: '15em' }}>{name}</h1>
               </div>
               <h6>Category: {category.join('| ')} </h6>
-              <p>Price: {price ? '$' + price : 'Not For Sell'}</p>
-              {rentPrice != null ? (
-                <p>
-                  Rent Price: {rentDuration} ${rentPrice}
-                </p>
-              ) : (
-                <p>
-                  <strong>Not Avaialble For Sell</strong>
-                </p>
-              )}
-              <p className='lead'>{description}</p>
+              <p>Price: {price}</p>
+
+              <p>
+                Rent Price: {rentDuration} ${rentPrice}
+              </p>
+              <p>
+                Posted At:
+                {new Date(createdAt).toLocaleDateString('en-US', options)}
+              </p>
             </article>
           </LinkContainer>
         )

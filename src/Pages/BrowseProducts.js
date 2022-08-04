@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProducts } from '../features/cart/cartSlice'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import SearchResults from '../Components/SearchResults'
-import axios from 'axios'
 function BrowseProducts() {
-  let [products, setProducts] = useState([])
-  let [isBuy, setIsBuy] = useState(false)
-  let [isRent, setIsRent] = useState(false)
-  let [name, setName] = useState('')
-  let [rentType, setRentType] = useState('')
-  let [category, setCategory] = useState('ELECTRONICS')
-  let [lowPrice, setLowPrice] = useState(0)
-  let [highPrice, setHighPrice] = useState(100)
-  let handleSubmit = async (e) => {
+  const dispatch = useDispatch()
+  const { products } = useSelector((store) => store.cart)
+  const [isBuy, setIsBuy] = useState(false)
+  const [isRent, setIsRent] = useState(false)
+  const [name, setName] = useState('')
+  const [rentType, setRentType] = useState('')
+  const [category, setCategory] = useState('ELECTRONICS')
+  const [lowPrice, setLowPrice] = useState(0)
+  const [highPrice, setHighPrice] = useState(100)
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    let { data } = await axios.get(
-      `/api/search/?name=${name}&category=${category}&buy=${isBuy}&rent=${isRent}&lowPrice=${lowPrice}&highPrice=${highPrice}&rentType=${rentType}`
+    dispatch(
+      getProducts(
+        `/api/search/?name=${name}&category=${category}&buy=${isBuy}&rent=${isRent}&lowPrice=${lowPrice}&highPrice=${highPrice}&rentType=${rentType}`
+      )
     )
-    setProducts(data)
   }
   return (
     <Container>

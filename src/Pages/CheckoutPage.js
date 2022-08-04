@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Container, Button } from 'react-bootstrap'
 import { openModal } from '../features/modal/modalSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
-import axios from 'axios'
 import ModalComponent from '../Components/ModalComponent'
 function CheckoutPage() {
   const navigate = useNavigate()
@@ -14,29 +12,19 @@ function CheckoutPage() {
     setIsBuy(true)
     dispatch(openModal())
   }
-  const { isOpen, isConfirm } = useSelector((store) => store.modal)
+  const { isOpen } = useSelector((store) => store.modal)
   const { userInfo } = useSelector((store) => store.user)
   const dispatch = useDispatch()
-  useEffect(() => {
-    async function getProduct() {
-      try {
-        const { data } = await axios.get(`/api/products/${id}`)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    getProduct()
-  }, [])
   const [searchParams, setSearchParams] = useSearchParams()
-  let id = searchParams.get('id')
-  let user = searchParams.get('user')
-  let name = searchParams.get('name')
-  let price = searchParams.get('price')
-  let rentPrice = searchParams.get('rentPrice')
-  let rentDuration = searchParams.get('rentDuration')
-  let description = searchParams.get('description')
-  let [isBuy, setIsBuy] = useState(false)
-  let [type, setType] = useState('')
+  const id = searchParams.get('id')
+  const user = searchParams.get('user')
+  const name = searchParams.get('name')
+  const price = searchParams.get('price')
+  const rentPrice = searchParams.get('rentPrice')
+  const rentDuration = searchParams.get('rentDuration')
+  const description = searchParams.get('description')
+  const [isBuy, setIsBuy] = useState(false)
+  const [type, setType] = useState('')
   if (userInfo) {
     if (userInfo.id == user) {
       return (
@@ -77,7 +65,7 @@ function CheckoutPage() {
         </h3>
         <p>{description}</p>
         {userInfo ? (
-          <div className='my-3'>
+          <div className='my-3' style={{ marginLeft: '85%' }}>
             <Button
               variant='primary'
               onClick={() => {

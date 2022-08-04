@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { Col, Card, ListGroup, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-function Product({ id, name, description, price, rentPrice }) {
+function Product({ id, name, description, price, rentPrice, rentDuration }) {
   const [showMore, setShowMore] = useState(false)
   return (
     <>
-      <Col md={6} lg={4} className='text-sm-center'>
-        <Card style={{ margin: '0 auto' }} className='m-3'>
+      <Col md={6} lg={4}>
+        <Card
+          style={{ margin: '0 auto' }}
+          className='m-3 border border-3 rounded-3 customCard'
+        >
           <Card.Body>
             <Card.Title>{name}</Card.Title>
             {!showMore && (
@@ -35,10 +38,12 @@ function Product({ id, name, description, price, rentPrice }) {
           </Card.Body>
           <ListGroup className='list-group-flush'>
             <ListGroup.Item>
-              <strong>
-                <h4 className='text-center'>Price: ${price}</h4>
-                <h4 className='text-center'>Rent Price: ${rentPrice}</h4>
-              </strong>
+              <div className='d-flex justify-content-between align-items-md-center'>
+                <p>Price: ${price}</p>
+                <p>
+                  Rent Price: {rentPrice}$ {rentDuration.toUpperCase()}
+                </p>
+              </div>
             </ListGroup.Item>
           </ListGroup>
         </Card>

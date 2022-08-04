@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap'
-import axios from 'axios'
+import React, { useEffect } from 'react'
+// Components Import
 import Product from '../Components/Product'
 import Pagination from '../Components/Pagination'
-
+import { Container, Row } from 'react-bootstrap'
+// Redux Imports
+import { useSelector, useDispatch } from 'react-redux'
+import { getProducts } from '../features/cart/cartSlice'
 function Home() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [products, setProducts] = useState([])
+  const { products, isLoading } = useSelector((store) => store.cart)
+  const dispatch = useDispatch()
   useEffect(() => {
-    async function getData() {
-      try {
-        setIsLoading(true)
-        const { data } = await axios.get('/api/products')
-        setProducts(data)
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getData()
+    dispatch(getProducts('/api/products'))
   }, [])
   if (isLoading) {
     return (
@@ -33,9 +25,6 @@ function Home() {
     <div>
       <Container>
         <Row>
-          {/* {products.map((product) => {
-            return <Product key={product.id} {...product} />
-          })} */}
           {products.length > 0 ? (
             <Pagination
               data={products}

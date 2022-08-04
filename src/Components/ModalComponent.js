@@ -1,13 +1,17 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   cancelAction,
   closeModal,
   confirmBuyAction,
   confirmRentAction,
 } from '../features/modal/modalSlice'
+import 'react-toastify/dist/ReactToastify.css'
 const ModalComponent = ({ message, data, isBuy }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { isMessage } = useSelector((store) => store.cart)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
@@ -33,6 +37,7 @@ const ModalComponent = ({ message, data, isBuy }) => {
               onClick={() => {
                 dispatch(closeModal())
                 dispatch(confirmBuyAction(data))
+                navigate('/')
               }}
             >
               Yes

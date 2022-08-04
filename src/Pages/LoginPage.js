@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { login } from '../features/user/userSlice'
 import axios from 'axios'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormContainer from '../Components/FormContainer'
 import { ToastContainer, toast } from 'react-toastify'
+import { loginRequest } from '../features/user/userSlice'
 import 'react-toastify/dist/ReactToastify.css'
 function LoginPage() {
   useEffect(() => {
