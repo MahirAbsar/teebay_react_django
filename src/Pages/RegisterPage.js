@@ -45,6 +45,7 @@ function RegisterPage() {
         dispatch(login())
         navigate('/')
       } catch (err) {
+        console.log('User with same email exists')
         console.log(err)
       }
     }
